@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwalking + Woolgathering 2026 — Accommodation Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d5;
+    --accent: #b85c2a;
+    --accent-pale: #f0d8c8;
+    --muted: #7a7468;
+    --border: #c8bfaa;
+    --england: #2a4a6b;
+    --wales: #6b2a2a;
+    --scotland: #2a5c3a;
+    --denmark: #c8a020;
+    --sweden: #3a5880;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,0.02) 20px,
+      rgba(255,255,255,0.02) 21px
+    );
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  header p {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.6);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 1rem;
+  }
+
+  /* LEGEND */
+  .legend {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+  }
+  .legend-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+  }
+  .legend-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 0.5rem;
+  }
+  .flag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+  .flag-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* NOTE BOX */
+  .note-box {
+    background: var(--accent-pale);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .note-box strong {
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* STOP */
+  .stop {
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    background: white;
+  }
+  .stop-header {
+    padding: 1rem 1.25rem 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .stop-flag {
+    width: 4px;
+    min-height: 40px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    margin-top: 2px;
+  }
+  .stop-meta {
+    flex: 1;
+  }
+  .stop-dates {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+  .stop-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .stop-subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+  .nights-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--paper-dark);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+  }
+
+  /* HOSTELS */
+  .hostels {
+    padding: 0;
+  }
+  .hostel {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--paper-dark);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem 1rem;
+    align-items: start;
+  }
+  .hostel:last-child { border-bottom: none; }
+  .hostel.top-pick {
+    background: #fdfbf7;
+  }
+  .hostel-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+  .hostel-name a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .hostel-name a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .hostel-address {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .hostel-desc {
+    font-size: 0.83rem;
+    color: #444;
+    line-height: 1.5;
+  }
+  .hostel-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+  }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.15rem 0.45rem;
+    background: var(--paper-dark);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .tag.warn {
+    background: #fff4e8;
+    border-color: #e8b880;
+    color: #8a5010;
+  }
+  .tag.good {
+    background: #eaf3ea;
+    border-color: #90b890;
+    color: #2a5a2a;
+  }
+  .hostel-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .rating {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .rating-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    display: block;
+  }
+  .map-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+  }
+  .map-link:hover { opacity: 0.7; }
+  .pick-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.15rem 0.4rem;
+    display: inline-block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1.25rem; }
+    main { padding: 1.25rem; }
+    .hostel { grid-template-columns: 1fr; }
+    .hostel-right { text-align: left; }
+    .legend { padding: 1rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-label">Accommodation Guide — Summer 2026</div>
+    <h1>Fieldwalking<br>+ <em>Woolgathering</em></h1>
+    <p>10 Jun – 10 Jul 2026 &nbsp;·&nbsp; England · Wales · Scotland · Denmark · Sweden</p>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-inner">
+    <span class="legend-label">Key</span>
+    <span class="flag-badge"><span class="flag-dot" style="background:#2a4a6b"></span>England</span>
+    <span class="flag-badge"><span class="flag-dot" style="background:#6b2a2a"></span>Wales</span>
+    <span class="flag-badge"><span class="flag-dot" style="background:#2a5c3a"></span>Scotland</span>
+    <span class="flag-badge"><span class="flag-dot" style="background:#c8a020"></span>Denmark</span>
+    <span class="flag-badge"><span class="flag-dot" style="background:#3a5880"></span>Sweden</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="note-box">
+    <strong>Booking tips:</strong> For single-night stops (Cardiff, Liverpool), book a hotel or hostel with easy check-in/out. The Scottish legs (Glasgow, Edinburgh, Portree, Fort William) all run through <strong>Hostelling Scotland (SYHA)</strong> — a membership card saves money across multiple nights. Dufftown has no hostel; the B&amp;B listed is the best local option — <strong>book early</strong>. Copenhagen hostels fill fast in summer; book 6–8 weeks ahead.
+  </div>
+
+  <!-- LONDON 1 -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--england)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">14–18 Jun &amp; 1–2 Jul</div>
+        <div class="stop-title">London, England</div>
+        <div class="stop-subtitle">Central · East · West · Drawing Matter / Soane · Summer Shows</div>
+      </div>
+      <div class="nights-badge">4 + 2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="pick-label">Top Pick — West &amp; Central days</div>
+          <div class="hostel-name"><a href="https://www.yha.org.uk/hostel/yha-london-central" target="_blank">YHA London Central</a></div>
+          <div class="hostel-address">104 Bolsover St, London W1W 5NU</div>
+          <div class="hostel-desc">Near BBC HQ and British Museum. 24/7 self-catering kitchen, café-bar, all-ages welcome. Good for multiple nights.</div>
+          <div class="hostel-tags">
+            <span class="tag good">24/7 kitchen</span>
+            <span class="tag good">Café-bar</span>
+            <span class="tag">W1 postcode</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.2</div>
+          <span class="rating-count">1,733 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=1729323797770267627" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+      <div class="hostel">
+        <div>
+          <div class="pick-label">Alt — City &amp; Southbank days</div>
+          <div class="hostel-name"><a href="https://www.yha.org.uk/hostel/yha-london-st-pauls" target="_blank">YHA London St Paul's</a></div>
+          <div class="hostel-address">36 Carter Lane, London EC4V 5AB</div>
+          <div class="hostel-desc">Excellent location for City/Southbank days. Historic building steps from the Tate. Note: St Paul's Cathedral bells are audible throughout the night.</div>
+          <div class="hostel-tags">
+            <span class="tag">EC4 postcode</span>
+            <span class="tag warn">Bells at night — bring earplugs</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.0</div>
+          <span class="rating-count">895 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=3819715671840956106" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATH -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--england)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">19–20 Jun</div>
+        <div class="stop-title">Bath, England</div>
+        <div class="stop-subtitle">Avalon Marshes · Coates Wicker · Roman Baths</div>
+      </div>
+      <div class="nights-badge">2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="hostel-name"><a href="https://www.yha.org.uk/hostel/yha-bath" target="_blank">YHA Bath</a></div>
+          <div class="hostel-address">Bathwick Hill, Bath BA2 6LA</div>
+          <div class="hostel-desc">Described by reviewers as one of the most beautiful YHAs in Britain — Italian villa-style building with views over the city. Uphill from the centre (15–20 min walk or short bus). Large self-catering kitchen.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Panoramic views</span>
+            <span class="tag good">Large kitchen</span>
+            <span class="tag warn">Uphill from centre</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.2</div>
+          <span class="rating-count">478 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=15833002574162273939" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARDIFF -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--wales)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">21 Jun</div>
+        <div class="stop-title">Cardiff (Caerdydd), Wales</div>
+        <div class="stop-subtitle">Blaenavon · South Wales Valley</div>
+      </div>
+      <div class="nights-badge">1 night</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel">
+        <div>
+          <div class="hostel-name"><a href="http://bnkhseuk.com/" target="_blank">BunkHouse Hostel &amp; DnB Bar</a></div>
+          <div class="hostel-address">93 St Mary St, Cardiff CF10 1DX</div>
+          <div class="hostel-desc">The most central budget option in Cardiff, with digital key access. Fine for a single night — the location is hard to beat. Sits above a drum &amp; bass club; music can penetrate until late. Earplugs essential.</div>
+          <div class="hostel-tags">
+            <span class="tag good">City centre</span>
+            <span class="tag good">Digital keys</span>
+            <span class="tag warn">Nightclub below — earplugs</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 3.4</div>
+          <span class="rating-count">400 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=12631283994438418078" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVERPOOL -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--england)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">22–23 Jun</div>
+        <div class="stop-title">Liverpool, England</div>
+        <div class="stop-subtitle">Granby Four Streets · Train to Glasgow</div>
+      </div>
+      <div class="nights-badge">1 night</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="hostel-name"><a href="https://www.yha.org.uk/hostel/yha-liverpool" target="_blank">YHA Liverpool Albert Dock</a></div>
+          <div class="hostel-address">25 Tabley St, Liverpool L1 8EE</div>
+          <div class="hostel-desc">Consistently clean and well-reviewed. Walking distance from the Albert Dock and the Granby Four Streets neighbourhood. Comfortable beds, good value, in-house food available.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Near Albert Dock</span>
+            <span class="tag good">Evening meals</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.4</div>
+          <span class="rating-count">836 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=14156299243607059481" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLASGOW -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--scotland)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">23–24 Jun</div>
+        <div class="stop-title">Glasgow, Scotland</div>
+        <div class="stop-subtitle">Merchant City · Glasgow School of Art (MSA)</div>
+      </div>
+      <div class="nights-badge">2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="pick-label">Top Pick</div>
+          <div class="hostel-name"><a href="https://www.hostellingscotland.org.uk/hostels/glasgow/" target="_blank">Glasgow Youth Hostel (SYHA)</a></div>
+          <div class="hostel-address">7–8 Park Terrace, Glasgow G3 6BY</div>
+          <div class="hostel-desc">Victorian townhouse in the West End, a short walk from the School of Art. Beautiful common lounge, well-equipped kitchen, friendly staff. The building has character.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Near GSA</span>
+            <span class="tag good">Great lounge</span>
+            <span class="tag">SYHA — membership saves money</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.3</div>
+          <span class="rating-count">614 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=5279887533302416626" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+      <div class="hostel">
+        <div>
+          <div class="pick-label">Alt — more privacy</div>
+          <div class="hostel-name"><a href="https://maps.google.com/?cid=14337328605486815093" target="_blank">Glasgow Metro Youth Hostel</a></div>
+          <div class="hostel-address">89 Buccleuch St, Glasgow G3 6QT</div>
+          <div class="hostel-desc">Single-bed rooms (not dorms), giving more privacy than a typical hostel. Small shared kitchen per floor. 15-min walk from GSA. Good for those who need quiet sleep.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Single beds — more privacy</span>
+            <span class="tag">Near city centre</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.2</div>
+          <span class="rating-count">92 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=14337328605486815093" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUFFTOWN -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--scotland)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">25–26 Jun</div>
+        <div class="stop-title">Dufftown, Scotland</div>
+        <div class="stop-subtitle">Glenlivet Estate · Knockando Mill · Speyside</div>
+      </div>
+      <div class="nights-badge">2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="pick-label">⚠ No hostel in Dufftown — best local option</div>
+          <div class="hostel-name"><a href="https://www.abbeyfieldbandb.com/" target="_blank">Abbeyfield B&amp;B</a></div>
+          <div class="hostel-address">Fife Street, Dufftown AB55 4AP</div>
+          <div class="hostel-desc">Exceptional small B&amp;B in the centre of Dufftown — warm hosts, beautifully decorated, full cooked breakfast. Perfect 5-star rating across 43 reviews. Small capacity, so book well in advance.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Cooked breakfast included</span>
+            <span class="tag warn">Small — book early</span>
+            <span class="tag">B&B, not hostel</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 5.0</div>
+          <span class="rating-count">43 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=11107534593234052663" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGHLANDS -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--scotland)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">27–28 Jun</div>
+        <div class="stop-title">Highlands — Fort Augustus &amp; Skye</div>
+        <div class="stop-subtitle">Christie Nursery · Inverness · Portree · Inner Hebrides</div>
+      </div>
+      <div class="nights-badge">2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="pick-label">Fort Augustus (Night 1)</div>
+          <div class="hostel-name"><a href="http://www.moragslodge.com/" target="_blank">Morag's Lodge</a></div>
+          <div class="hostel-address">Bunoich Brae, Fort Augustus PH32 4DG</div>
+          <div class="hostel-desc">Friendly Highland lodge right on the Great Glen Way. Bar, evening meals, self-catering kitchen, drying room. A proper base for this leg of the journey.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Evening meals</span>
+            <span class="tag good">Bar on site</span>
+            <span class="tag">Great Glen Way</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.4</div>
+          <span class="rating-count">462 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=4252972297944008203" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+      <div class="hostel">
+        <div>
+          <div class="pick-label">Skye (Night 2)</div>
+          <div class="hostel-name"><a href="https://www.hostellingscotland.org.uk/hostels/portree/" target="_blank">Portree Youth Hostel (SYHA)</a></div>
+          <div class="hostel-address">Lisigarry Court, Portree IV51 9EW</div>
+          <div class="hostel-desc">Right in Portree village — the best base for exploring Skye. Friendly staff, good kitchen, cosy atmosphere. Some reviews note heating issues, so bring a layer.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Portree village centre</span>
+            <span class="tag">SYHA membership</span>
+            <span class="tag warn">Bring a warm layer</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.1</div>
+          <span class="rating-count">552 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=13585155759654117601" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORT WILLIAM -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--scotland)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">29 Jun (en route)</div>
+        <div class="stop-title">Fort William, Scotland</div>
+        <div class="stop-subtitle">Through Argyll &amp; Bute · Hill House (Helensburgh)</div>
+      </div>
+      <div class="nights-badge">stopover</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel">
+        <div>
+          <div class="hostel-name"><a href="https://www.hostellingscotland.org.uk/hostels/glen-nevis/" target="_blank">Glen Nevis Youth Hostel</a></div>
+          <div class="hostel-address">Glen Nevis, Fort William PH33 6SY</div>
+          <div class="hostel-desc">At the foot of Ben Nevis in a spectacular valley setting. Large kitchen, comfortable dorms, many en-suite. A favourite in the SYHA network. If arriving late, also consider Fort William Backpackers (Alma Rd) which is closer to the town centre and train station.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Stunning location</span>
+            <span class="tag good">Large kitchen</span>
+            <span class="tag">4 km from town</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.5</div>
+          <span class="rating-count">607 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=3587125727647588057" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDINBURGH -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--scotland)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">29–30 Jun</div>
+        <div class="stop-title">Edinburgh, Scotland</div>
+        <div class="stop-subtitle">Parliament · Royal Mile · New Town</div>
+      </div>
+      <div class="nights-badge">2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="hostel-name"><a href="https://www.hostellingscotland.org.uk/hostels/edinburgh-central/" target="_blank">Edinburgh Central Youth Hostel (SYHA)</a></div>
+          <div class="hostel-address">9 Haddington Place, Edinburgh EH7 4AL</div>
+          <div class="hostel-desc">Central location, walking distance to the Royal Mile and within easy reach of bus and rail stations. On-site restaurant plus self-catering kitchen. Consistently clean and well-staffed.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Near bus &amp; rail</span>
+            <span class="tag good">Restaurant + kitchen</span>
+            <span class="tag">SYHA membership</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.0</div>
+          <span class="rating-count">1,242 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=12156730132570951714" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COPENHAGEN -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--denmark)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">3–9 Jul</div>
+        <div class="stop-title">Copenhagen, Denmark</div>
+        <div class="stop-subtitle">Indre By · Refshaleøen · Christianshavn · Louisiana · Kronborg</div>
+      </div>
+      <div class="nights-badge">5 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="pick-label">Top Pick</div>
+          <div class="hostel-name"><a href="https://www.steelhousecopenhagen.com/" target="_blank">Steel House Copenhagen</a></div>
+          <div class="hostel-address">Herholdtsgade 6, 1605 København</div>
+          <div class="hostel-desc">The standout hostel in Copenhagen — barely feels like one. Stunning lobby with pool tables and bar, heated bathroom floors, comfortable pod beds. Pool access available. Near Vesterport station. Widely praised as one of the best in Europe.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Pool + gym</span>
+            <span class="tag good">Heated floors</span>
+            <span class="tag good">Open 24hrs</span>
+            <span class="tag">Near Vesterport</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.3</div>
+          <span class="rating-count">5,669 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=7483648550187784352" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+      <div class="hostel">
+        <div>
+          <div class="pick-label">Alt — near Tivoli</div>
+          <div class="hostel-name"><a href="https://danhostelcopenhagencity.dk/" target="_blank">Danhostel Copenhagen City</a></div>
+          <div class="hostel-address">H.C. Andersens Blvd. 50, 1553 København</div>
+          <div class="hostel-desc">Classic Danhostel on the main boulevard, 10 min walk to City Hall and Tivoli. Private rooms available. Good breakfast. Luggage storage. A reliable choice for a group that wants more flexibility.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Private rooms available</span>
+            <span class="tag good">Open 24hrs</span>
+            <span class="tag">Near Tivoli</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.1</div>
+          <span class="rating-count">4,071 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=4467717714143099578" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+      <div class="hostel">
+        <div>
+          <div class="pick-label">Alt — social / Indre By</div>
+          <div class="hostel-name"><a href="http://www.copenhagendowntown.com/" target="_blank">Copenhagen Downtown Hostel</a></div>
+          <div class="hostel-address">Vandkunsten 5, 1467 København</div>
+          <div class="hostel-desc">Dead centre of Indre By, with a lively bar and social events nightly. Best for those who want to meet people; less ideal if early nights are needed.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Indre By location</span>
+            <span class="tag">Bar &amp; nightly events</span>
+            <span class="tag warn">Can be noisy late</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 3.9</div>
+          <span class="rating-count">3,750 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=7467471491390925299" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MALMÖ -->
+  <div class="stop">
+    <div class="stop-header">
+      <div class="stop-flag" style="background:var(--sweden)"></div>
+      <div class="stop-meta">
+        <div class="stop-dates">8–9 Jul</div>
+        <div class="stop-title">Malmö, Sweden</div>
+        <div class="stop-subtitle">Eastern Cemetery · Museum of Crafts &amp; Design · Klippan · St Peter's</div>
+      </div>
+      <div class="nights-badge">1–2 nights</div>
+    </div>
+    <div class="hostels">
+      <div class="hostel top-pick">
+        <div>
+          <div class="hostel-name"><a href="http://www.hotelnhostel.se/" target="_blank">HOTEL N Hostel Malmö City</a></div>
+          <div class="hostel-address">Rönnsgatan 1, 211 47 Malmö</div>
+          <div class="hostel-desc">The best-rated option in central Malmö. Free continental breakfast, fully-equipped kitchen available to guests, beautiful inner courtyard. Short walk to Malmö Central and Triangeln stations for easy Copenhagen access on departure day.</div>
+          <div class="hostel-tags">
+            <span class="tag good">Free breakfast</span>
+            <span class="tag good">Free kitchen</span>
+            <span class="tag good">Near Malmö Central</span>
+            <span class="tag">Easy CPH airport access</span>
+          </div>
+        </div>
+        <div class="hostel-right">
+          <div class="rating">⭑ 4.4</div>
+          <span class="rating-count">392 reviews</span>
+          <a class="map-link" href="https://maps.google.com/?cid=3834328988565427266" target="_blank">Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Fieldwalking + Woolgathering 2026 &nbsp;·&nbsp; Accommodation research compiled May 2026 &nbsp;·&nbsp; Ratings from Google Maps
+</footer>
+
+</body>
+</html>
