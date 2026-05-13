@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwalking + Woolgathering 2026 — Packing List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d5;
+    --accent: #b85c2a;
+    --accent-pale: #f0d8c8;
+    --muted: #7a7468;
+    --border: #c8bfaa;
+    --green: #2a5c3a;
+    --green-pale: #eaf3ea;
+    --green-border: #90b890;
+    --warn: #8a5010;
+    --warn-pale: #fff4e8;
+    --warn-border: #e8b880;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 20px,
+      rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px
+    );
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header h1 em { font-style: italic; color: var(--accent); }
+  header p {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.6);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 1rem;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .progress-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .btn-reset {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* NOTE */
+  .note-box {
+    background: var(--accent-pale);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .note-box strong { font-weight: 500; color: var(--accent); }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+    background: white;
+  }
+  .section-header {
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--paper-dark);
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header:hover { background: var(--accent-pale); }
+  .section-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .section-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .section-chevron {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .section.collapsed .section-chevron { transform: rotate(-90deg); }
+  .section.collapsed .items { display: none; }
+
+  /* ITEMS */
+  .items {
+    padding: 0.5rem 0;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.55rem 1.25rem;
+    border-bottom: 1px solid var(--paper-dark);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: #fdfbf7; }
+  .item.checked { background: var(--green-pale); }
+  .item.checked .item-name { color: var(--muted); text-decoration: line-through; }
+
+  /* Custom checkbox */
+  .item-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    background: white;
+  }
+  .item.checked .item-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .item.checked .item-check::after {
+    content: '✓';
+    color: white;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .item-body { flex: 1; }
+  .item-name {
+    font-size: 0.87rem;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+  .item-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+    line-height: 1.4;
+  }
+  .item-note.warn { color: var(--warn); }
+  .item-note.good { color: var(--green); }
+
+  /* SUBSECTION label */
+  .sub-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.6rem 1.25rem 0.2rem;
+    background: white;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1.25rem; }
+    main { padding: 1.25rem; }
+    .progress-bar { padding: 0.75rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-label">Packing List — Summer 2026</div>
+    <h1>Fieldwalking<br>+ <em>Woolgathering</em></h1>
+    <p>ARCH499 / ARCH497 / AAH380 &nbsp;·&nbsp; Illinois Institute of Technology</p>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:1.25rem;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-decoration:none;border:1px solid var(--accent);padding:0.35rem 0.75rem;">
+      ← Accommodation Guide
+    </a>
+  </div>
+</header>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <span class="progress-label">Packed</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+    <button class="btn-reset" onclick="resetAll()">Reset</button>
+  </div>
+</div>
+
+<main>
+
+  <div class="note-box">
+    <strong>Rule #1:</strong> No rolling suitcases. One <strong>40–50L internal-frame backpack</strong> + one day bag only. Pack for 5–7 days and do laundry on the road. If in doubt, leave it out — every extra kilo slows you down and reduces what you can do.
+  </div>
+
+  <!-- BAG -->
+  <div class="section" id="s-bag">
+    <div class="section-header" onclick="toggleSection('s-bag')">
+      <span class="section-icon">🎒</span>
+      <span class="section-title">Bags</span>
+      <span class="section-count" id="count-s-bag">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">40–50L internal-frame backpack with waist belt</div>
+          <div class="item-note warn">No rolling luggage — this is your only main bag. Pack to ~2/3 full capacity.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Day bag / small backpack</div>
+          <div class="item-note">For camera, sketchbook, food, water, and daily essentials. Keep it packed and ready to go.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Rain cover or protective sack for main pack</div>
+          <div class="item-note">Reduces damage and pilfering when flying. Alternatively, tighten all straps before checking.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Packing cubes or mesh bags (3–4)</div>
+          <div class="item-note good">Makes morning pack-up much faster. Suggested: clothes / toiletries / docs+cables / dirty laundry.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Breathable bag for dirty laundry</div>
+          <div class="item-note">Keeps dirty clothes separate in your pack.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Reusable cotton tote bag</div>
+          <div class="item-note">Useful for grocery runs, markets, and daily shopping.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOTHING -->
+  <div class="section" id="s-clothes">
+    <div class="section-header" onclick="toggleSection('s-clothes')">
+      <span class="section-icon">👕</span>
+      <span class="section-title">Clothing</span>
+      <span class="section-count" id="count-s-clothes">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="sub-label">Core — pack for 5–7 days, plan to do laundry</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">T-shirts / tops (4–5)</div>
+          <div class="item-note">Quick-dry or merino preferred — both air dry overnight.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Trousers / pants (2)</div>
+          <div class="item-note">One durable walking pair + one lighter option. Avoid heavy denim.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Underwear (6–7 pairs)</div>
+          <div class="item-note">More than shirts and trousers — they're light and worth having extras.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Socks (6–7 pairs, including 2 thick/wooly pairs)</div>
+          <div class="item-note good">Thick wooly socks keep feet warm even in rain-soaked shoes — essential for Scottish days.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sleepwear</div>
+          <div class="item-note">Required when sharing hostel rooms.</div>
+        </div>
+      </div>
+
+      <div class="sub-label">Layers — the key to this trip</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Lightweight raincoat / waterproof shell</div>
+          <div class="item-note warn">Most critical piece of gear. Must be thin, lightweight, and packable into a daypack pocket. Wind-resistant. Essential for Scotland.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Mid-layer: fleece or light sweater</div>
+          <div class="item-note">Nights and Highlands can be 40–50°F even in summer. This goes under your raincoat.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Cool-weather hat (beanie or similar)</div>
+          <div class="item-note">Scottish coast and moors can be genuinely cold and windy.</div>
+        </div>
+      </div>
+
+      <div class="sub-label">Footwear</div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sturdy, grippy walking shoes — fully broken in</div>
+          <div class="item-note warn">You will walk a lot on varied terrain. Break these in thoroughly before departure — do not show up in new shoes.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Flip-flops or sandals</div>
+          <div class="item-note">For hostel showers, evenings, and any shared bathing facilities.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="section" id="s-docs">
+    <div class="section-header" onclick="toggleSection('s-docs')">
+      <span class="section-icon">📄</span>
+      <span class="section-title">Documents &amp; Money</span>
+      <span class="section-count" id="count-s-docs">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Passport (valid for duration of trip)</div>
+          <div class="item-note warn">Keep on your person at all times — inside pocket or money belt, never outer pocket.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Scanned copies of all documents emailed to yourself + Prof. Johnson</div>
+          <div class="item-note warn">Do this before departure — passport, insurance, visas, booking confirmations.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Any required travel visas</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Proof of health insurance</div>
+          <div class="item-note">Wallet card or letter from carrier. Required for some visas.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">At least two payment methods (cards)</div>
+          <div class="item-note warn">Keep them separate — one on your person, one deeper in your main pack. Do NOT attach to your phone.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Bank notified of travel dates and countries</div>
+          <div class="item-note">Verify international use policy and fees before departure.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">IIT HawkCard (student ID)</div>
+          <div class="item-note good">Eligible for museum discounts at many venues throughout the trip.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">SYHA / Hostelling Scotland membership card (if booked)</div>
+          <div class="item-note good">Saves money across Glasgow, Edinburgh, Portree, and Fort William stays.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Small amount of local cash (£ GBP, DKK, SEK)</div>
+          <div class="item-note">UK is largely contactless but occasional rural vendors cash-only. Get DKK / SEK on arrival or use ATM.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEALTH -->
+  <div class="section" id="s-health">
+    <div class="section-header" onclick="toggleSection('s-health')">
+      <span class="section-icon">💊</span>
+      <span class="section-title">Health &amp; First Aid</span>
+      <span class="section-count" id="count-s-health">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Prescription medications (full trip supply, pharmacy-labelled)</div>
+          <div class="item-note warn">Enough for the full duration. Clear pharmacy label on the container.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Pain reliever (aspirin / ibuprofen / paracetamol)</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Antidiarrheal medication</div>
+          <div class="item-note">Stomach upsets are common among travelers; plan ahead.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Antihistamine</div>
+          <div class="item-note">Allergies and hay fever are common, especially in rural/coastal areas.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Motion sickness medication</div>
+          <div class="item-note">Coaches, vans, ferries, and winding Highland roads. Take proactively.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Blister plasters / moleskin</div>
+          <div class="item-note warn">You will walk a lot. Address blisters immediately — don't be a hero.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Band-aids / plasters (assorted)</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Elastic bandage / knee support</div>
+          <div class="item-note">Sore knees and twisted ankles are common. Wrap early, not late.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Earplugs (several pairs)</div>
+          <div class="item-note good">Hostel dorms, noisy hostels (Cardiff!), Scottish 18-hour summer daylight. Essential.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Eye mask / sleep mask</div>
+          <div class="item-note good">Scottish midsummer days stretch past 18 hours — it does not get fully dark. Bring this.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Small sewing kit</div>
+          <div class="item-note">For clothing repairs on the road.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Hand sanitiser (travel size)</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Tissues / pocket pack</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOILETRIES -->
+  <div class="section" id="s-toiletries">
+    <div class="section-header" onclick="toggleSection('s-toiletries')">
+      <span class="section-icon">🪥</span>
+      <span class="section-title">Toiletries</span>
+      <span class="section-count" id="count-s-toiletries">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Toothbrush + toothpaste</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">"Clean rinse" shampoo (travel size)</div>
+          <div class="item-note good">Pro tip: a basic rinse shampoo can wash your body, hair, and clothes — one bottle, many uses.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Soap / body wash (travel size)</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Deodorant</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Razor / shaving supplies</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Small quick-dry travel towel</div>
+          <div class="item-note">Not all hostels provide towels. Compact microfibre is best.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sunscreen (travel size)</div>
+          <div class="item-note">Long days outdoors, especially in open Highland landscapes.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Lip balm</div>
+          <div class="item-note">Wind and cold are drying, especially on the Scottish coast.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">All liquids in TSA-compliant containers (≤100ml/3.4oz)</div>
+          <div class="item-note warn">Fluids in checked baggage if flying mid-trip (required for sketching supplies too).</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Toiletry pouch</div>
+          <div class="item-note">Keep it all together and accessible.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDIO SUPPLIES -->
+  <div class="section" id="s-studio">
+    <div class="section-header" onclick="toggleSection('s-studio')">
+      <span class="section-icon">✏️</span>
+      <span class="section-title">Studio &amp; Drawing Supplies</span>
+      <span class="section-count" id="count-s-studio">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sketchbook (travel size)</div>
+          <div class="item-note">To be documented daily — see Prof. Kowalczyk for specific requirements.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Drawing + collage kit (cigar box / small shoe box sized)</div>
+          <div class="item-note warn">Stow in checked baggage when flying — all sharps and fluids must be checked, not carried on.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Pencils, pens, erasers</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Watercolours / inks / other media (as required)</div>
+          <div class="item-note warn">Check with Prof. Kowalczyk for full required supplies list (issued separately).</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Camera or phone with good camera</div>
+          <div class="item-note good">Multiple lenses preferred — telephoto lens reduces shadows when documenting sketchbook pages. Consult Prof. Kowalczyk about photography integration.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Extra memory cards / charged batteries</div>
+          <div class="item-note">If using a dedicated camera.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Guidebook(s) for key stops</div>
+          <div class="item-note">Keep in day bag for reference on the go.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECH -->
+  <div class="section" id="s-tech">
+    <div class="section-header" onclick="toggleSection('s-tech')">
+      <span class="section-icon">📱</span>
+      <span class="section-title">Tech &amp; Electronics</span>
+      <span class="section-count" id="count-s-tech">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Mobile phone</div>
+          <div class="item-note warn">Keep cellular roaming OFF — use Wi-Fi only. Do not attach your card to your phone.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Local prepaid SIM or eSIM (UK)</div>
+          <div class="item-note good">Cheaper than carrier roaming for emergency calls. Set up before or on arrival.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Phone charger + cable</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">UK/EU universal plug adapter</div>
+          <div class="item-note">UK uses Type G (3-pin). Denmark/Sweden use Type C/F (2-pin). A universal adapter covers both.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Portable power bank</div>
+          <div class="item-note">Long days out without access to power outlets. Keep phone charged for maps and transit.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Headphones</div>
+          <div class="item-note">For long train journeys and overnight coaches.</div>
+        </div>
+      </div>
+      <div class="sub-label">Leave at home</div>
+      <div class="item" style="opacity:0.5;cursor:default;">
+        <div class="item-check" style="background:#eee;border-color:#ddd;"></div>
+        <div class="item-body">
+          <div class="item-name" style="text-decoration:line-through;color:var(--muted);">Laptop</div>
+          <div class="item-note warn">Leave it. You won't need it and you'll resent carrying it.</div>
+        </div>
+      </div>
+      <div class="item" style="opacity:0.5;cursor:default;">
+        <div class="item-check" style="background:#eee;border-color:#ddd;"></div>
+        <div class="item-body">
+          <div class="item-name" style="text-decoration:line-through;color:var(--muted);">Tablet</div>
+          <div class="item-note warn">Leave it. Same reason as above — adds weight with no meaningful benefit on this trip.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY CARRY -->
+  <div class="section" id="s-daily">
+    <div class="section-header" onclick="toggleSection('s-daily')">
+      <span class="section-icon">🧃</span>
+      <span class="section-title">Daily Carry (Day Bag Essentials)</span>
+      <span class="section-count" id="count-s-daily">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Refillable water bottle</div>
+          <div class="item-note warn">Carry and refill constantly. Fill before setting out each day. Do not buy plastic bottles.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Packed lunch + snacks</div>
+          <div class="item-note">Group sessions do not stop to buy food. Come prepared every morning.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Raincoat (always in day bag)</div>
+          <div class="item-note">Weather changes fast — especially in Scotland and Wales.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sketchbook + drawing kit</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Passport (inside pocket or money belt)</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Payment card(s) + small cash</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISCELLANEOUS -->
+  <div class="section" id="s-misc">
+    <div class="section-header" onclick="toggleSection('s-misc')">
+      <span class="section-icon">🔧</span>
+      <span class="section-title">Miscellaneous &amp; Pro Tips</span>
+      <span class="section-count" id="count-s-misc">0/0</span>
+      <span class="section-chevron">▾</span>
+    </div>
+    <div class="items">
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Pocket knife (non-locking blade)</div>
+          <div class="item-note warn">Locking blades are illegal in the UK. A Swiss Army style knife or similar is fine. Useful for assembling lunch.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Thin rope or paracord (~3–4m)</div>
+          <div class="item-note good">A laundry line strung between beds or hooks transforms a hostel room. Genuinely useful.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Small padlock</div>
+          <div class="item-note">For hostel lockers where available.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Reusable shopping bags (2)</div>
+          <div class="item-note">Plastic bags are charged in the UK — have your own.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Sunglasses</div>
+          <div class="item-note">Long outdoor days, especially at northern latitudes where the sun stays low and glaring.</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Small notebook for budget tracking</div>
+          <div class="item-note good">The travel doc recommends writing each expenditure in your sketchbook — "it has a sobering effect."</div>
+        </div>
+      </div>
+      <div class="item" onclick="toggle(this)">
+        <div class="item-check"></div>
+        <div class="item-body">
+          <div class="item-name">Clothespins / pegs (4–6)</div>
+          <div class="item-note">For the laundry line and hostel drying racks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Fieldwalking + Woolgathering 2026 &nbsp;·&nbsp; Illinois Institute of Technology, College of Architecture &nbsp;·&nbsp; Profs. Johnson, Kowalczyk &amp; Mills
+</footer>
+
+<script>
+  // Toggle single item
+  function toggle(el) {
+    el.classList.toggle('checked');
+    saveState();
+    updateProgress();
+  }
+
+  // Toggle section collapse
+  function toggleSection(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+
+  // Count all checkable items
+  function getAllItems() {
+    return document.querySelectorAll('.item[onclick="toggle(this)"]');
+  }
+
+  function updateProgress() {
+    const all = getAllItems();
+    const checked = document.querySelectorAll('.item.checked');
+    const total = all.length;
+    const done = checked.length;
+    const pct = total ? (done / total * 100) : 0;
+
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressCount').textContent = done + ' / ' + total;
+
+    // Update per-section counts
+    document.querySelectorAll('.section').forEach(section => {
+      const id = section.id;
+      const items = section.querySelectorAll('.item[onclick="toggle(this)"]');
+      const checkedItems = section.querySelectorAll('.item.checked');
+      const countEl = document.getElementById('count-' + id);
+      if (countEl) countEl.textContent = checkedItems.length + '/' + items.length;
+    });
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all checkboxes?')) return;
+    getAllItems().forEach(el => el.classList.remove('checked'));
+    saveState();
+    updateProgress();
+  }
+
+  // Persist state in sessionStorage
+  function saveState() {
+    const items = getAllItems();
+    const state = Array.from(items).map(el => el.classList.contains('checked'));
+    try { sessionStorage.setItem('packingState', JSON.stringify(state)); } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      const state = JSON.parse(sessionStorage.getItem('packingState') || '[]');
+      const items = getAllItems();
+      state.forEach((checked, i) => {
+        if (items[i] && checked) items[i].classList.add('checked');
+      });
+    } catch(e) {}
+  }
+
+  loadState();
+  updateProgress();
+</script>
+</body>
+</html>
