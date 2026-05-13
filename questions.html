@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwalking + Woolgathering 2026 — Open Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a18;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d5;
+    --accent: #b85c2a;
+    --accent-pale: #f0d8c8;
+    --muted: #7a7468;
+    --border: #c8bfaa;
+    --green: #2a5c3a;
+    --green-pale: #eaf3ea;
+    --warn: #8a5010;
+    --warn-pale: #fff4e8;
+    --warn-border: #e8b880;
+    --resolved: #2a5c3a;
+    --resolved-pale: #eaf3ea;
+    --resolved-border: #90b890;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 20px,
+      rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px
+    );
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header h1 em { font-style: italic; color: var(--accent); }
+  header p {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.6);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 1rem;
+  }
+  .header-nav {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+  .header-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 0.35rem 0.75rem;
+  }
+
+  /* STICKY STATUS BAR */
+  .status-bar {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .status-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .status-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-pill.open .status-dot { background: var(--warn); }
+  .status-pill.resolved .status-dot { background: var(--resolved); }
+  .status-count {
+    font-weight: 500;
+  }
+  .status-label { color: var(--muted); }
+  .btn-filter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  .btn-filter:hover, .btn-filter.active { border-color: var(--accent); color: var(--accent); }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .intro-box {
+    background: var(--accent-pale);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .intro-box strong { font-weight: 500; color: var(--accent); }
+
+  /* CATEGORY */
+  .category {
+    margin-bottom: 2.5rem;
+  }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .category-icon { font-size: 1rem; }
+  .category-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .category-tally {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    border: 1px solid var(--border);
+    background: white;
+    margin-bottom: 0.75rem;
+    transition: opacity 0.2s;
+  }
+  .q-card.resolved { border-color: var(--resolved-border); background: var(--resolved-pale); }
+  .q-card.hide { display: none; }
+
+  .q-top {
+    padding: 0.85rem 1.25rem 0.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.6rem 0.9rem;
+    align-items: start;
+    cursor: pointer;
+  }
+  .q-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .q-card:not(.resolved) .q-status { background: var(--warn); }
+  .q-card.resolved .q-status { background: var(--resolved); }
+
+  .q-body { flex: 1; }
+  .q-question {
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.45;
+    margin-bottom: 0.3rem;
+  }
+  .q-card.resolved .q-question { color: var(--muted); }
+  .q-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    align-items: center;
+  }
+  .q-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--paper-dark);
+  }
+  .q-tag.transit { border-color: #a0b8d0; color: #2a4a6b; background: #eef3f8; }
+  .q-tag.accom { border-color: #c0b090; color: #5a4010; background: #fdf6e8; }
+  .q-tag.studio { border-color: #b090c0; color: #40205a; background: #f5eef8; }
+  .q-tag.health { border-color: #90c0a0; color: #205a30; background: #eef8f2; }
+  .q-tag.logistics { border-color: #c09090; color: #5a2020; background: #f8eeee; }
+  .q-tag.predep { border-color: #c0a870; color: #5a4010; background: #fdf8ee; }
+
+  .q-who {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .q-detail {
+    padding: 0 1.25rem 0.85rem 3.2rem;
+    font-size: 0.8rem;
+    color: #444;
+    line-height: 1.6;
+    border-top: 1px solid var(--paper-dark);
+    padding-top: 0.6rem;
+    margin-top: 0;
+  }
+  .q-card:not(.resolved) .q-detail { border-top-color: var(--warn-border); }
+  .q-card.resolved .q-detail { border-top-color: var(--resolved-border); }
+
+  .q-answer {
+    background: var(--resolved-pale);
+    border-left: 2px solid var(--resolved);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: var(--green);
+  }
+
+  /* MARK RESOLVED toggle */
+  .q-resolve-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-top: 0.6rem;
+    display: inline-block;
+  }
+  .q-resolve-btn:hover { border-color: var(--green); color: var(--green); }
+  .q-card.resolved .q-resolve-btn { border-color: var(--resolved-border); color: var(--resolved); }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    align-items: flex-start;
+  }
+  .contact-strip-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    width: 100%;
+    margin-bottom: 0.2rem;
+  }
+  .contact-item {
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+  .contact-item a { color: var(--accent); text-decoration: none; }
+
+  footer {
+    margin-top: 3rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1.25rem; }
+    main { padding: 1.25rem; }
+    .status-bar { padding: 0.75rem 1.25rem; }
+    .q-top { grid-template-columns: auto 1fr; }
+    .q-who { grid-column: 2; }
+    .q-detail { padding-left: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-label">Open Questions — Summer 2026</div>
+    <h1>Fieldwalking<br>+ <em>Woolgathering</em></h1>
+    <p>ARCH499 / ARCH497 / AAH380 &nbsp;·&nbsp; Illinois Institute of Technology</p>
+    <div class="header-nav">
+      <a href="index.html">← Itinerary</a>
+      <a href="packing-list.html">Packing List →</a>
+    </div>
+  </div>
+</header>
+
+<div class="status-bar">
+  <div class="status-inner">
+    <span class="status-pill open">
+      <span class="status-dot"></span>
+      <span class="status-count" id="openCount">—</span>
+      <span class="status-label">open</span>
+    </span>
+    <span class="status-pill resolved">
+      <span class="status-dot"></span>
+      <span class="status-count" id="resolvedCount">—</span>
+      <span class="status-label">resolved</span>
+    </span>
+    <button class="btn-filter" id="filterBtn" onclick="toggleFilter()">Show open only</button>
+  </div>
+</div>
+
+<main>
+
+  <div class="intro-box">
+    <strong>How to use this page:</strong> These are gaps, unknowns, and questions identified from the program documents that students should follow up on with faculty before departure. Click <em>Mark resolved</em> on any item once you have a confirmed answer. Your progress is saved in this browser session.
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="contact-strip">
+    <div class="contact-strip-label">Faculty — direct your questions here</div>
+    <div class="contact-item">
+      <strong style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;">Prof. Leslie Johnson</strong><br>
+      Logistics, itinerary, transport, accommodation<br>
+      <a href="mailto:johnsonl@illinoistech.edu">johnsonl@illinoistech.edu</a> &nbsp;·&nbsp; 703.608.8105
+    </div>
+    <div class="contact-item">
+      <strong style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;">Prof. Lukasz Kowalczyk</strong><br>
+      Drawing kit, studio requirements, photography<br>
+      <a href="mailto:kowalczyk@illinoistech.edu">kowalczyk@illinoistech.edu</a> &nbsp;·&nbsp; 847.644.2089
+    </div>
+    <div class="contact-item">
+      <strong style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;">Prof. Kindon Mills</strong><br>
+      Woolgathering (ARCH497/AAH380) questions<br>
+      <a href="mailto:kmills2@illinoistech.edu">kmills2@illinoistech.edu</a> &nbsp;·&nbsp; 847.845.1564
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TRANSPORT -->
+  <!-- ============================================================ -->
+  <div class="category" id="cat-transport">
+    <div class="category-header">
+      <span class="category-icon">🚆</span>
+      <span class="category-title">Transport &amp; Getting Between Stops</span>
+      <span class="category-tally" id="tally-transport"></span>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">How do students get from Bath to Cardiff on 21 Jun?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag">21 Jun</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary shows a faculty coach departing Bath on 21 Jun to Blaenavon + the South Wales Valley — not to Cardiff directly. It is unclear whether the coach drops students in Cardiff at the end of the day (making Cardiff the natural endpoint of the itinerary), or whether students must make their own way there after the coach returns them elsewhere. Where does the coach depart from, and where does it drop off?
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">How do students get from Cardiff to Liverpool at the end of 22 Jun?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag">22–23 Jun</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        22 Jun is the Cardiff day (WSA Summer Show, Chapter Arts, St Fagans), with Liverpool as the overnight destination. No transit information is provided for the end-of-day Cardiff→Liverpool leg. A direct train takes approximately 2.5–3 hours. Is this self-arranged, or is there a group booking?
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">How do students get from Liverpool to Glasgow on 23 Jun — is the train self-booked?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag">23 Jun</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary notes "TRAIN to Glasgow (stop at Brockholes)" on 23 Jun, but gives no information on who books it or where to board. Like the Cardiff→Liverpool leg, it appears to be student self-arranged, but this should be confirmed — and the Brockholes stop timing and nature (brief visit?) also need clarification.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">What is the coach pick-up location and time for the Bath/Somerset day (19–20 Jun)?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag">19–20 Jun</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary notes "coach pick up will be from a central location — TBD." Students staying in Bath need to know where and when to meet the coach for the Avebury + Bruton day.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">How does the Highlands transport work — what do the faculty vans actually cover?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag">25–29 Jun</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary states "TRAIN to Edinburgh, VANS to Crannog Centre + Cairngorms locations" on 25 Jun — so the Glasgow→Edinburgh leg is by train (likely student self-arranged), and vans are used for day-trip destinations from there. It is not clear which overnight legs are van-covered (e.g. Edinburgh→Dufftown? Dufftown→Highlands? Skye→Fort William→Edinburgh on 29 Jun?) and which students must arrange independently.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="transport">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Is the Northumberland stop on 1 Jul (en route London) a brief visit or an overnight? Where exactly?</div>
+          <div class="q-meta">
+            <span class="q-tag transit">transit</span>
+            <span class="q-tag logistics">logistics</span>
+            <span class="q-tag">1 Jul</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary says "TRAIN to London (stop in Northumberland)" — it is not clear whether this is a day visit only (train continues same day to London) or requires an overnight in the Morpeth/Northumberland area. Students need to know whether to book a night there before London.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- ACCOMMODATION -->
+  <!-- ============================================================ -->
+  <div class="category" id="cat-accom">
+    <div class="category-header">
+      <span class="category-icon">🏨</span>
+      <span class="category-title">Accommodation</span>
+      <span class="category-tally" id="tally-accom"></span>
+    </div>
+
+    <div class="q-card" data-cat="accom">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Is faculty making a central booking for Dufftown (25–26 Jun), and if so when will it be confirmed?</div>
+          <div class="q-meta">
+            <span class="q-tag accom">accommodation</span>
+            <span class="q-tag">25–26 Jun</span>
+            <span class="q-tag">Dufftown</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary says faculty "will likely make a central booking for all" for the Highlands leg. Students should not book independently until this is confirmed. There is only one small B&amp;B in Dufftown (Abbeyfield) with very limited availability — if students need to self-arrange, they should know as soon as possible.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="accom">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Is the overnight on 27–28 Jun in Fort Augustus or Skye (Portree) — which is confirmed?</div>
+          <div class="q-meta">
+            <span class="q-tag accom">accommodation</span>
+            <span class="q-tag">27–28 Jun</span>
+            <span class="q-tag">Highlands</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary lists the overnight as "Fort Augustus or Skye (TBC)" and notes it is likely part of the faculty central booking. Students cannot book independently until the location is confirmed — both Morag's Lodge (Fort Augustus) and Portree SYHA (Skye) are listed as options in the itinerary.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="accom">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Does the Northumberland visit on 1 Jul require an overnight? If so, where?</div>
+          <div class="q-meta">
+            <span class="q-tag accom">accommodation</span>
+            <span class="q-tag logistics">logistics</span>
+            <span class="q-tag">1 Jul</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        If the train stop in Northumberland involves more than a brief visit (e.g. a half-day or full day), an overnight in Morpeth or the surrounding area may be needed before continuing to London. This is not addressed in the itinerary and no hostel is listed for this area.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="accom">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">For London Visit 1 (14–18 Jun) — are students expected to stay in the same hostel all 4 nights, or split between hostels for different area days?</div>
+          <div class="q-meta">
+            <span class="q-tag accom">accommodation</span>
+            <span class="q-tag">14–18 Jun</span>
+            <span class="q-tag">London</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary covers Central, East, West, and Drawing Matter/Soane across 4 days in London. The accommodation guide lists YHA London Central as the top pick and notes it is a "good base for multiple nights given the range of areas." Confirm whether one booking for all 4 nights is recommended, or whether splitting across hostels (e.g. St Paul's for City days) is worth it.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STUDIO + DRAWING KIT -->
+  <!-- ============================================================ -->
+  <div class="category" id="cat-studio">
+    <div class="category-header">
+      <span class="category-icon">✏️</span>
+      <span class="category-title">Studio, Drawing Kit &amp; Assignments</span>
+      <span class="category-tally" id="tally-studio"></span>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Are there any additional drawing supplies beyond those listed in the drawing kit PDF?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Kowalczyk</div>
+      </div>
+      <div class="q-detail">
+        The drawing kit PDF notes that professors may provide or recommend additional surfaces (postcards, sketchbooks, etc.) for specific assignments on the go. Students should confirm whether there is anything additional to purchase or prepare before departure, beyond the required supplies listed in the kit.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">What are the specific daily sketchbook documentation requirements?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Kowalczyk</div>
+      </div>
+      <div class="q-detail">
+        The packing list and travel documents refer to daily sketchbook documentation as a requirement but do not specify format, scope, or how documentation is submitted or reviewed. Clarify expectations before departure so students come prepared.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Are there specific sites where the Sennelier accordion sketchbooks will be used?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Kowalczyk</div>
+      </div>
+      <div class="q-detail">
+        The drawing kit PDF says accordion sketchbooks will be used "on special occasions and at specific sites." It would help students to know which sites in advance so they can have the right book in their day bag on those days.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">What knitting/crochet project(s) are the stitching supplies for?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Kowalczyk / Prof. Mills</div>
+      </div>
+      <div class="q-detail">
+        The drawing kit requires knitting needles, yarn (one skein, DK/3 weight), and an optional crochet needle. It would help students to know the intended use or project so they can choose yarn colour/weight thoughtfully and come with the right needles.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Chicago Weaving School workshop (26 May) — is this confirmed and where is it?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+            <span class="q-tag predep">pre-departure</span>
+            <span class="q-tag">26 May</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Mills</div>
+      </div>
+      <div class="q-detail">
+        The itinerary lists the Chicago Weaving School workshop as TBC alongside the Erik Gustafson woodworking visit on 26 May. Students need confirmation of whether this session is happening, and if so where and at what time.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="studio">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Erik Gustafson woodworking studio visit (26 May) — is this confirmed and where is it?</div>
+          <div class="q-meta">
+            <span class="q-tag studio">studio</span>
+            <span class="q-tag predep">pre-departure</span>
+            <span class="q-tag">26 May</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson / Prof. Kowalczyk</div>
+      </div>
+      <div class="q-detail">
+        Listed as TBC in the itinerary. Students need a confirmed location and time.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- LOGISTICS + CONDUCT -->
+  <!-- ============================================================ -->
+  <div class="category" id="cat-logistics">
+    <div class="category-header">
+      <span class="category-icon">🔧</span>
+      <span class="category-title">Logistics, Conduct &amp; Practical</span>
+      <span class="category-tally" id="tally-logistics"></span>
+    </div>
+
+    <div class="q-card" data-cat="logistics">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Which transit legs between cities are faculty-arranged vs. student self-arranged?</div>
+          <div class="q-meta">
+            <span class="q-tag logistics">logistics</span>
+            <span class="q-tag transit">transit</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The travel document states "some connections between cities and towns will be arranged by the faculty… some connections you will need to purchase directly." A clear list of which specific legs are faculty-arranged (and thus should not be self-booked) versus student-arranged would prevent both duplicate bookings and students missing connections.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="logistics">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">What is the daily meeting time and location format — how will students be notified each day?</div>
+          <div class="q-meta">
+            <span class="q-tag logistics">logistics</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The itinerary emphasises "the train cannot wait for you" and timeliness is essential. Students need to know how daily meeting times and locations will be communicated — group chat, email, or a set standing time each morning?
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="logistics">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Is there a recommended group messaging platform for the trip?</div>
+          <div class="q-meta">
+            <span class="q-tag logistics">logistics</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        With Wi-Fi-only phone use recommended, a platform like WhatsApp or Signal (which work over Wi-Fi) would be the likely group communication method. Confirm the preferred platform so students can install it and join any group before departure.
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="logistics">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">Is the SYHA membership card worth purchasing, and does the program bulk-purchase them?</div>
+          <div class="q-meta">
+            <span class="q-tag logistics">logistics</span>
+            <span class="q-tag accom">accommodation</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        SYHA membership saves money across Glasgow, Edinburgh, Portree, and Fort William — four stops. Students should confirm whether the program arranges group membership, or whether they should purchase individual cards before departure (approximately £10 each from hostellingscotland.org.uk).
+      </div>
+    </div>
+
+    <div class="q-card" data-cat="logistics">
+      <div class="q-top">
+        <div class="q-status"></div>
+        <div class="q-body">
+          <div class="q-question">What is the recommended daily budget per student?</div>
+          <div class="q-meta">
+            <span class="q-tag logistics">logistics</span>
+          </div>
+        </div>
+        <div class="q-who">→ Prof. Johnson</div>
+      </div>
+      <div class="q-detail">
+        The travel doc references "the estimated travel budget for the program" but does not give a figure. Students need a target daily spend to plan their finances — accommodation, food, and transit costs vary significantly between London/Copenhagen and the Scottish rural legs.
+      </div>
+    </div>
+
+
+  </div>
+
+</main>
+
+<footer>
+  Fieldwalking + Woolgathering 2026 &nbsp;·&nbsp; Illinois Institute of Technology, College of Architecture &nbsp;·&nbsp; Profs. Johnson, Kowalczyk &amp; Mills
+</footer>
+
+<script>
+  const STORAGE_KEY = 'fwwg_resolved_questions';
+
+  function getResolved() {
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function saveResolved(arr) {
+    try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch(e) {}
+  }
+
+  function toggleResolved(card, btn) {
+    const id = card.dataset.id;
+    let resolved = getResolved();
+    if (card.classList.contains('resolved')) {
+      card.classList.remove('resolved');
+      resolved = resolved.filter(x => x !== id);
+      btn.textContent = 'Mark resolved';
+    } else {
+      card.classList.add('resolved');
+      resolved.push(id);
+      btn.textContent = 'Mark open';
+    }
+    saveResolved(resolved);
+    updateCounts();
+    applyFilter();
+  }
+
+  let filterOpen = false;
+  function toggleFilter() {
+    filterOpen = !filterOpen;
+    const btn = document.getElementById('filterBtn');
+    btn.classList.toggle('active', filterOpen);
+    btn.textContent = filterOpen ? 'Show all' : 'Show open only';
+    applyFilter();
+  }
+
+  function applyFilter() {
+    document.querySelectorAll('.q-card').forEach(card => {
+      if (filterOpen && card.classList.contains('resolved')) {
+        card.classList.add('hide');
+      } else {
+        card.classList.remove('hide');
+      }
+    });
+  }
+
+  function updateCounts() {
+    const all = document.querySelectorAll('.q-card');
+    const resolvedCards = document.querySelectorAll('.q-card.resolved');
+    const openCount = all.length - resolvedCards.length;
+    document.getElementById('openCount').textContent = openCount;
+    document.getElementById('resolvedCount').textContent = resolvedCards.length;
+
+    // Per-category tallies
+    document.querySelectorAll('.category').forEach(cat => {
+      const id = cat.id.replace('cat-', '');
+      const tallyEl = document.getElementById('tally-' + id);
+      if (!tallyEl) return;
+      const cards = cat.querySelectorAll('.q-card');
+      const res = cat.querySelectorAll('.q-card.resolved');
+      tallyEl.textContent = res.length + '/' + cards.length + ' resolved';
+    });
+  }
+
+  // Initialise — assign IDs, add buttons, restore state
+  function init() {
+    const cards = document.querySelectorAll('.q-card');
+    const resolved = getResolved();
+
+    cards.forEach((card, i) => {
+      const id = 'q' + i;
+      card.dataset.id = id;
+
+      // Add resolve button into q-detail
+      const detail = card.querySelector('.q-detail');
+      const btn = document.createElement('button');
+      btn.className = 'q-resolve-btn';
+      btn.textContent = 'Mark resolved';
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleResolved(card, btn);
+      });
+      if (detail) detail.appendChild(btn);
+
+      // Restore state
+      if (resolved.includes(id)) {
+        card.classList.add('resolved');
+        if (btn) btn.textContent = 'Mark open';
+      }
+    });
+
+    updateCounts();
+  }
+
+  init();
+</script>
+</body>
+</html>
